@@ -6,7 +6,7 @@ from scrapy_exception import NotImplementedError
 from email_client import EmailClient
 
 
-class ServerBase(object):
+class ServiceBase(object):
     def __init__(self, service_name=None, query_delay=None,
                  local_conf_file=None, global_conf_data=None):
         self.service_name = service_name
