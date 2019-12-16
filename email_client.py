@@ -51,7 +51,6 @@ class EmailClient(object):
 
         if not single_display:
             msg['To'] = ",".join(email_reveivers)
-            msg.del_param()
             server.sendmail(self._sender_mail,
                             mail_info['receivers'],
                             msg.as_string())
