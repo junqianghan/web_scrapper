@@ -52,7 +52,7 @@ class EmailClient(object):
         if not single_display:
             msg['To'] = ",".join(email_reveivers)
             server.sendmail(self._sender_mail,
-                            mail_info['receivers'],
+                            email_reveivers,
                             msg.as_string())
         else:
             for receiver in email_reveivers:
