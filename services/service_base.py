@@ -4,6 +4,7 @@ import config
 import logging
 from scrapy_exception import NotImplementedError
 from email_client import EmailClient
+LOG = logging.getLogger(__name__)
 
 
 class ServiceBase(object):
@@ -18,22 +19,10 @@ class ServiceBase(object):
 
         self.query_delay = query_delay or self.conf_data.get('query_delay', 10)
 
-        self.logger = self._get_logger_client()
-
         mail_sender = self.conf_data.get("email", None)
         self.mail_client = EmailClient(mail_sender)
 
         self.pre_data = None
-
-    def _get_logger_client(self):
-        logger = logging.getLogger(self.service_name)
-
-        log_file = os.path.abspath(self.conf_data.get("log_file"))
-        log_level = config.log_levels_map[self.conf_data.get("log_level")]
-        f_handler = logging.FileHandler(log_file)
-        f_handler.setLevel(log_level)
-        logger.addHandler(f_handler)
-        return logger
 
     def _query_now(self):
         raise NotImplementedError()
@@ -57,6 +46,6 @@ class ServiceBase(object):
         cur_data = self._query_data()
         if self._should_notify(cur_data):
             self._notify()
-            self.logger.info("nofity success")
+            LOG.info("nofity success")
             self._update_predata(cur_data)
-        self.logger.info("execute success.")
+        LOG.info("execute success.")
