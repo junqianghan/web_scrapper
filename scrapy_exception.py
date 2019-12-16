@@ -25,3 +25,7 @@ class ScrapyException(Exception):
         LOG.exception("Exception in string format operation")
         for name, value in self._kwargs:
             LOG.error("%s : %s" % (name, value))
+
+
+class NotImplementedError(ScrapyException):
+    msg_fmt = "Method is not implemented"

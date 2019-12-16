@@ -4,6 +4,12 @@ import json
 import logging
 
 LOG=logging.getLogger(__name__)
+log_levels_map = {
+        "info":logging.INFO,
+        "debug":logging.DEBUG,
+        "warning":logging.WARNING,
+        "error":logging.ERROR
+    }
 
 
 def get_conf_json(conf_file = None):
