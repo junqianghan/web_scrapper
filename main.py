@@ -3,14 +3,17 @@ import os
 import config
 import logging
 import argparse
+import time
+import importlib
 
 
 global_conf_file = os.path.abspath("etc/scrapper_conf.json")
 global_conf_data = None
 
 services_map = {
-    "movie_check":"services.service_movie_check.ServiceMovieCheck"
+    "movie_check": "services.service_movie_check.ServiceMovieCheck"
 }
+
 
 def initial_basic_logging(service_name=None):
     log_dir = global_conf_data.get("log_dir")
@@ -20,6 +23,16 @@ def initial_basic_logging(service_name=None):
     logging.basicConfig(level=log_level,
                         filename=log_file,
                         format=log_format)
+
+
+def import_attribution(path=None):
+    if not path:
+        return None
+    path_list = path.split(".")
+    module_name = ".".join(path_list[:-1])
+    attr_name = path_list[-1]
+    module = importlib.import_module(module_name)
+    return getattr(module, attr_name)
 
 
 def main():
@@ -33,7 +46,14 @@ def main():
     service_name = args.service
     initial_basic_logging(service_name)
 
+    service_class = import_attribution(services_map[service_name])
 
+    service = service_class(service_name=service_name,
+                            global_conf_data=global_conf_data)
+
+    while True:
+        service.execute()
+        time.sleep(service.query_delay)
 
 
 if __name__ == '__main__':
