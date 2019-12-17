@@ -48,7 +48,10 @@ def main():
 
     service_class = import_attribution(services_map[service_name])
 
+    service_conf_file = os.path.abspath("etc/%s.json" % service_name)
+    print(service_conf_file)
     service = service_class(service_name=service_name,
+                            local_conf_file=service_conf_file,
                             global_conf_data=global_conf_data)
 
     while True:
