@@ -2,11 +2,15 @@
 import os
 import config
 import logging
+import argparse
 
 
 global_conf_file = os.path.abspath("etc/scrapper_conf.json")
 global_conf_data = None
 
+services_map = {
+    "movie_check":"services.service_movie_check.ServiceMovieCheck"
+}
 
 def initial_basic_logging(service_name=None):
     log_dir = global_conf_data.get("log_dir")
@@ -21,9 +25,14 @@ def initial_basic_logging(service_name=None):
 def main():
     global global_conf_data
     global_conf_data = config.get_conf_json(global_conf_file)
-    print(global_conf_data)
-    service_name = "movie_check"
+
+    parse = argparse.ArgumentParser(description="web scrappy framework.")
+    parse.add_argument("service", help="service name", choices=services_map.keys())
+    args = parse.parse_args()
+
+    service_name = args.service
     initial_basic_logging(service_name)
+
 
 
 
