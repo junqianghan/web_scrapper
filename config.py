@@ -2,8 +2,9 @@
 
 import json
 import logging
+import os
 
-LOG=logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 log_levels_map = {
         "info":logging.INFO,
         "debug":logging.DEBUG,
@@ -19,6 +20,8 @@ def get_conf_json(conf_file = None):
     :return: json config
     """
     if not conf_file:
+        return None
+    if not os.path.exists(conf_file):
         return None
 
     try:
