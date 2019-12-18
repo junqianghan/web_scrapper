@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import copy
 
 LOG = logging.getLogger(__name__)
 log_levels_map = {
@@ -37,8 +38,10 @@ def merge_conf_data(global_conf, local_conf):
     if not local_conf:
         return global_conf
 
-    conf = local_conf
-    for item in global_conf.keys():
-        if item not in conf:
-            conf[item] = global_conf[item]
+    # conf = local_conf
+    # for item in global_conf.keys():
+    #     if item not in conf:
+    #         conf[item] = global_conf[item]
+    conf = copy.deepcopy(global_conf)
+    conf.update(local_conf)
     return conf
