@@ -45,16 +45,25 @@ def main():
     parse.add_argument("service", help="service name", choices=services_map.keys())
     args = parse.parse_args()
 
+    print("Args parse finish...")
+
     service_name = args.service
     initial_basic_logging(service_name)
+
+    print("Root logging initial finish...")
+    LOG = logging.getLogger(__name__)
+    LOG.info("LOG initial finish, start log.")
 
     service_class = import_attribution(services_map[service_name])
 
     service_conf_file = os.path.abspath("etc/%s.json" % service_name)
-    print(service_conf_file)
+    LOG.info("service name : %s" % service_name)
+    LOG.info("service conf file : %s" % service_conf_file)
+
     service = service_class(service_name=service_name,
                             local_conf_file=service_conf_file,
                             global_conf_data=global_conf_data)
+    LOG.info("service %s instantiation success." % service_name)
 
     while True:
         service.execute()
