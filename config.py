@@ -45,3 +45,17 @@ def merge_conf_data(global_conf, local_conf):
     conf = copy.deepcopy(global_conf)
     conf.update(local_conf)
     return conf
+
+
+def check_and_build_directory(abs_path=None):
+    """
+    check if abs_path exists, if not mkdir.
+
+    :param abs_path: absolute path
+    :return: None
+    """
+    if not abs_path:
+        return
+
+    if not os.path.exists(abs_path):
+        os.mkdir(abs_path)

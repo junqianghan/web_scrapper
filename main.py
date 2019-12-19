@@ -5,6 +5,7 @@ import logging
 import argparse
 import time
 import importlib
+from config import check_and_build_directory
 
 
 global_conf_file = os.path.abspath("etc/scrapper_conf.json")
@@ -17,8 +18,10 @@ services_map = {
 
 def initial_basic_logging(service_name=None):
     log_dir = global_conf_data.get("log_dir")
-    if not os.path.exists(log_dir):
-        os.mkdir(os.path.abspath(log_dir))
+
+    check_and_build_directory(os.path.abspath(log_dir))
+    # if not os.path.exists(log_dir):
+    #     os.mkdir(os.path.abspath(log_dir))
     log_file = os.path.abspath(log_dir + "%s.log" % service_name)
     log_level = config.log_levels_map[global_conf_data.get("log_level")]
     log_format = "%(asctime)s %(levelname)s %(message)s %(filename)s:%(funcName)s:%(lineno)d"
