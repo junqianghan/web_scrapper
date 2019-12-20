@@ -44,6 +44,10 @@ def main():
     global global_conf_data
     global_conf_data = config.get_conf_json(global_conf_file)
 
+    if not global_conf_data:
+        print("global_conf_data None, exit...")
+        return -1
+
     parse = argparse.ArgumentParser(description="web scrappy framework.")
     parse.add_argument("service", help="service name", choices=services_map.keys())
     args = parse.parse_args()
