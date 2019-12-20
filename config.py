@@ -58,4 +58,4 @@ def check_and_build_directory(abs_path=None):
         return
 
     if not os.path.exists(abs_path):
-        os.mkdir(abs_path)
+        os.makedirs(abs_path)
