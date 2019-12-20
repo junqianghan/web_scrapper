@@ -59,7 +59,7 @@ def main():
 
     print("Root logging initial finish...")
     LOG = logging.getLogger(__name__)
-    LOG.info("LOG initial finish, start log.")
+    LOG.info("==========LOG initial finish, start log==========")
 
     service_class = import_attribution(services_map[service_name])
 
