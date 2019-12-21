@@ -8,7 +8,7 @@ import importlib
 from config import check_and_build_directory
 
 
-global_conf_file = os.path.abspath("etc/scrapper_conf.json")
+global_conf_file = os.path.abspath("etc/global.json")
 global_conf_data = None
 
 services_map = {
