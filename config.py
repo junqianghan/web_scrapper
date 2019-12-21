@@ -13,6 +13,44 @@ log_levels_map = {
         "error":logging.ERROR
     }
 
+def get_json_file(fn, keys=None):
+    """
+    Get data from json file
+    :param fn: filename
+    :param keys: interested keys
+    :return: dict formatted data
+    """
+    if not fn or not os.path.exists(fn):
+        LOG.debug("get data from json but filename is none.")
+        return None
+
+    try:
+        with open(fn, encoding='utf-8') as f:
+            jsobj = json.load(f)
+    except Exception as e:
+        LOG.exception("get data from json error, filename:%s" % fn)
+        raise e
+    if not keys:
+        return jsobj
+
+    retDict = {}
+    for key in keys:
+        retDict[key] = jsobj[key]
+    return retDict
+
+
+def save_json_file(fn,json_data):
+    """
+    save json data to file.
+    :param fn: filename
+    :param json_data: data
+    :return: None
+    """
+    json_str = json.dumps(json_data, indent=4,
+                          ensure_ascii=False, sort_keys=False)
+    with open(fn, 'w') as f:
+        f.write(json_str)
+
 
 def get_conf_json(conf_file = None):
     """Return json format from json file.
