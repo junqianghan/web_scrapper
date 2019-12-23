@@ -24,16 +24,22 @@ class ServiceBase(object):
 
         self.pre_data = None
 
+        self.state_dir = os.path.abspath("./var/%s/" % self.service_name)
+        config.check_and_build_directory(self.state_dir)
+
     def _query_now(self):
         raise NotImplementedError()
 
     def _query_data(self):
         raise NotImplementedError()
 
-    def _should_notify(self, cur_data):
+    def _check_new_data(self,cur_data):
         raise NotImplementedError()
 
-    def _notify(self):
+    def _should_notify(self, new_data):
+        raise NotImplementedError()
+
+    def _notify(self, new_data):
         raise NotImplementedError()
 
     def _update_predata(self, cur_data=None):
@@ -44,8 +50,9 @@ class ServiceBase(object):
             return
 
         cur_data = self._query_data()
-        if self._should_notify(cur_data):
-            self._notify()
+        new_data = self._check_new_data(cur_data)
+        if self._should_notify(new_data):
+            self._notify(new_data)
             LOG.info("nofity success")
             self._update_predata(cur_data)
-        LOG.info("execute success.")
+        LOG.info("execute %s success." % self.service_name)
